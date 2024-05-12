@@ -24,7 +24,7 @@ export default function NewProductConfig() {
             <div className="px-4 py-5 sm:p-6">
               <div className="flex flex-row justify-between items-center mb-5">
                 <span className="text-lg font-medium leading-6 text-gray-900 inline-flex">
-                  Condition #{index + 1}
+                  Rule Set #{index + 1}
                 </span>
                 <RowControls
                   rows={configs}

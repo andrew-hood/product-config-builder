@@ -2,6 +2,15 @@ import { useEffect, useState } from "react";
 import RowControls from "./RowControl";
 import Divider from "./Divider";
 
+const PROPERTIES = [
+  "portal.data.user_plan.license",
+  "portal.configuration.locale",
+  "portal.title",
+  "portal.data_residency_region",
+];
+
+const OPERATORS = { in: "IN", eq: "=", gt: ">", lt: "<" };
+
 const Rules = ({ onChange, data }: any) => {
   const [rules, setRules] = useState<any>(data || []);
 
@@ -9,9 +18,7 @@ const Rules = ({ onChange, data }: any) => {
     setRules([...rules, {}]);
   };
 
-  useEffect(() => {
-    onChange(rules);
-  }, [rules]);
+  useEffect(() => onChange(rules), [rules]);
 
   const Rule = ({ rule, ruleIndex }: { rule: any; ruleIndex: number }) => {
     return (
@@ -22,15 +29,18 @@ const Rules = ({ onChange, data }: any) => {
             defaultValue={rule.property}
             onChange={(e) => {
               rule.property = e.target.value;
+              setRules([...rules]);
             }}
           >
             <option disabled selected>
               {" "}
-              -- select an option --{" "}
+              -- select --{" "}
             </option>
-            <option value="portal.company_size">portal.company_size</option>
-            <option value="portal.country">portal.country</option>
-            <option value="portal.name">portal.name</option>
+            {PROPERTIES.map((property) => (
+              <option key={property} value={property}>
+                {property}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -40,12 +50,17 @@ const Rules = ({ onChange, data }: any) => {
             defaultValue={rule.operator}
             onChange={(e) => {
               rule.operator = e.target.value;
+              setRules([...rules]);
             }}
           >
-            <option value="in">IN</option>
-            <option value="eq">=</option>
-            <option value="gt">&gt;</option>
-            <option value="lt">&lt;</option>
+            <option disabled selected>
+              --
+            </option>
+            {Object.keys(OPERATORS).map((op: string) => (
+              <option key={op} value={op}>
+                {(OPERATORS as any)[op]}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -57,6 +72,9 @@ const Rules = ({ onChange, data }: any) => {
               defaultValue={rule.value}
               onChange={(e) => {
                 rule.value = e.target.value;
+              }}
+              onBlur={() => {
+                setRules([...rules]);
               }}
             />
           </div>
