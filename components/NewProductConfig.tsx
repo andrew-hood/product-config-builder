@@ -33,9 +33,9 @@ export default function NewProductConfig() {
                 />
               </div>
               <Rules
-                data={config.rules}
-                onChange={(rules: any) => {
-                  configs[index].rules = rules;
+                data={config.conditions}
+                onChange={(conditions: any) => {
+                  configs[index].conditions = conditions;
                   setConfigs([...configs]);
                 }}
               />
